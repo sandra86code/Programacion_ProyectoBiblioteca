@@ -12,6 +12,13 @@ public class Libro extends Recurso {
 		super(codigo, titulo, editorial, fechaPublicacion);
 		this.setGenero(genero);
 	}
+	
+	
+
+	public Libro(String codigo) throws RecursoException {
+		super(codigo);
+	}
+
 
 
 	public String getGenero() {

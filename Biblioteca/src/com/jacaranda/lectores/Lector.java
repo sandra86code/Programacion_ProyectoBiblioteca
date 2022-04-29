@@ -30,8 +30,16 @@ public class Lector {
 		this.setEmail(email);
 		this.prestamos = new ArrayList<>();
 	}
+	
+	
+	
+	public Lector(String dni) throws LectorException {
+		super();
+		this.setDni(dni);
+	}
 
-	private boolean lectorMultado() {
+
+	public boolean lectorMultado() {
 		boolean multado = false;
 		if(multa!=null && multa.getFechaFin().isBefore(LocalDate.now())) {
 			multado = true;
@@ -40,10 +48,8 @@ public class Lector {
 	}
 	
 	public String finalizacionMulta() {
-		String mensaje;
-		if(!lectorMultado()) {
-			mensaje = "El usuario no está multado.";
-		}else {
+		String mensaje = null;
+		if(lectorMultado()) {
 			mensaje = "Fecha finalización de la multa: " + multa.getFechaFin().getDayOfMonth() + "-" 
 					+ multa.getFechaFin().getMonthValue() + "-" + multa.getFechaFin().getYear();
 		}
@@ -217,6 +223,10 @@ public class Lector {
 		}
 	}
 	
+	
+	public int numeroPrestamosActuales() {
+		return prestamos.size();
+	}
 	
 	public String listarPrestamos() {
 		StringBuilder mensaje = new StringBuilder("El socio " + numSocio + " tiene los siguientes préstamos: ");

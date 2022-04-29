@@ -2,6 +2,7 @@ package com.jacaranda.recursos;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 
 public abstract class Recurso {
@@ -23,10 +24,26 @@ public abstract class Recurso {
 		this.ejemplares = new HashSet<>();
 	}
 
+	
+	protected Recurso(String codigo) throws RecursoException {
+		super();
+		this.setCodigo(codigo);
+	}
+
 
 	protected abstract void setCodigo(String codigo) throws RecursoException;
 
 	
+	public HashSet<Ejemplar> getEjemplares() {
+		return ejemplares;
+	}
+
+
+	public void setEjemplares(HashSet<Ejemplar> ejemplares) {
+		this.ejemplares = ejemplares;
+	}
+
+
 	public String getCodigo() {
 		return codigo;
 	}
@@ -103,6 +120,22 @@ public abstract class Recurso {
 		if(e==null || !ejemplares.add(e)) {
 			throw new RecursoException("Ejemplar nulo o repetido.");
 		}
+	}
+	
+	public Ejemplar ejemplarDisponible() {
+		boolean disponible = false;
+		Ejemplar ejemplar = null;
+		Iterator<Ejemplar> iterador = ejemplares.iterator();
+		while(iterador.hasNext() && !disponible) {
+			ejemplar = iterador.next();
+			if(ejemplar.getEstado().equalsIgnoreCase("DISPONIBLE")) {
+				disponible = true;
+			}
+		}
+		if(!disponible) {
+			ejemplar = null;
+		}
+		return ejemplar;
 	}
 	
 	

@@ -16,7 +16,7 @@ public class Ejemplar {
 		this.setLocalizacion(localizacion);
 	}
 
-
+	
 	public void setEstado(String estado) throws EjemplarException {
 		if(estado==null) {
 			throw new EjemplarException("El estado del ejemplar no puede ser nulo.");

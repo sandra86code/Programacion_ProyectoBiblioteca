@@ -13,7 +13,9 @@ public class Revista extends Recurso {
 		this.setPeriodicidad(periodicidad);
 	}
 
-
+	public Revista(String codigo) throws RecursoException {
+		super(codigo);
+	}
 
 	public String getPeriodicidad() {
 		return periodicidad.toString();
