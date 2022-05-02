@@ -17,7 +17,12 @@ public class Autor {
 		this.setFechaNacimiento(fechaNacimiento);
 	}
 
-
+	public Autor(String nombre) throws AutorException {
+		super();
+		this.setNombre(nombre);
+	}
+	
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -59,7 +64,7 @@ public class Autor {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fechaNacimiento, nombre);
+		return Objects.hash(nombre);
 	}
 
 
@@ -72,8 +77,7 @@ public class Autor {
 		if (getClass() != obj.getClass())
 			return false;
 		Autor other = (Autor) obj;
-		return Objects.equals(fechaNacimiento, other.fechaNacimiento)
-				&& Objects.equals(nombre, other.nombre);
+		return Objects.equals(nombre, other.nombre);
 	}
 
 

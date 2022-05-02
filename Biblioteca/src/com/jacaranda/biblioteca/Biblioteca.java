@@ -100,9 +100,7 @@ public class Biblioteca {
 			}
 			RecursoAutor ra = new RecursoAutor(revista, autor);
 			recursosAutores.add(ra);
-		} catch (RecursoException e) {
-			throw new BibliotecaException(e.getMessage());
-		} catch (RecursoAutorException e) {
+		} catch (RecursoException | RecursoAutorException e) {
 			throw new BibliotecaException(e.getMessage());
 		}
 	}
@@ -145,7 +143,8 @@ public class Biblioteca {
 		}
 		try {
 			// Añado el ejemplar al recurso
-			this.recursos.get(this.recursos.indexOf(recurso)).addEjemplar(new Ejemplar(estado, localizacion));
+			Recurso r = this.recursos.get(this.recursos.indexOf(recurso));
+			r.addEjemplar(new Ejemplar(r.getCodigo(), estado, localizacion));
 		} catch (RecursoException e) {
 			throw new BibliotecaException(e.getMessage());
 		} catch (EjemplarException e) {
@@ -189,50 +188,78 @@ public class Biblioteca {
 			}
 			// Añado el préstamo
 			lector.addPrestamo(e);
-		} catch (LectorException e1) {
-			throw new BibliotecaException(e1.getMessage());
-		} catch (RecursoException e1) {
+		} catch (LectorException | RecursoException e1) {
 			throw new BibliotecaException(e1.getMessage());
 		}
 	}
 
-	private void devolverPrestamo(String dniSocio, int codigoEjemplar) throws BibliotecaException {
+	public void devolverPrestamo(String dniSocio, String codigoEjemplar) throws BibliotecaException {
 		// Compruebo si existe el lector
 		Lector lector;
+		Ejemplar ejemplar;
 		try {
 			lector = new Lector(dniSocio);
 			if (this.lectores.indexOf(lector) == -1) {
 				throw new BibliotecaException("Lector no registrado.");
 			}
-			this.lectores.get(this.lectores.indexOf(lector)).removePrestamo(null);
-			// Comprobar si el lector tiene un ejemplar de ese recurso prestado
-			HashSet<Ejemplar> ejemplares = this.recursos.get(this.recursos.indexOf(recursos)).getEjemplares();
-			
-			// Devolver préstamo
-			lector.removePrestamo(e);
+			ejemplar = new Ejemplar(codigoEjemplar);
+			this.lectores.get(this.lectores.indexOf(lector)).removePrestamo(ejemplar);
 		} catch (LectorException e1) {
-			throw new BibliotecaException(e1.getMessage());
-		} catch (RecursoException e1) {
 			throw new BibliotecaException(e1.getMessage());
 		}
 	}
 
-//	private String buscarSocio(String dni) {
-//		
-//	}
-//
-//	private String buscarLibroPorIsbn(String isbn) {
-//
-//	}
-//
-//	private String buscarRevistaPorIssn(String issn) {
-//
-//	}
-//
-//	private String buscarObrasDeAutor(String nombre, LocalDate fechaNacimiento) {
-//
-//	}
+	public String listarSocios() {
+		StringBuilder mensaje = new StringBuilder();
+		for(Lector l : lectores) {
+			mensaje.append(l.toString() + "\n");
+		}
+		return mensaje.toString();
+	}
 
+	public String listarRecursosConEjemplares() {
+		StringBuilder mensaje = new StringBuilder();
+		for(Recurso r: recursos) {
+			mensaje.append(r.verEjemplares() + "\n");
+		}
+		return mensaje.toString();
+	}
+
+	public String verEjemplaresDeRecurso(String codigo) throws RecursoException {
+		StringBuilder mensaje = new StringBuilder();
+		Recurso recurso = null;
+		if (codigo != null && codigo.length() == 13) {
+			recurso = new Libro(codigo);
+		} else if (codigo != null && codigo.length() == 8) {
+			recurso = new Revista(codigo);
+		}
+		if (recurso == null) {
+			mensaje.append("No existe dicho recurso en el catálogo.");
+		}else {
+			mensaje.append(recurso.verEjemplares());
+		}
+		return mensaje.toString();
+	}
+	
+	public String listarObrasDeAutor(String nombreAutor) throws AutorException, RecursoException {
+		StringBuilder mensaje = new StringBuilder();
+		Autor autor = null;
+		try {
+			autor = new Autor(nombreAutor);
+		} catch (AutorException e) {
+			mensaje.append("No existe el autor");
+		}
+		if(autor!=null) {
+			for(RecursoAutor ra : recursosAutores) {
+				if(ra.getAutor().equals(autor)) {
+					mensaje.append(ra.getRecurso().toString());
+				}
+			}
+		}
+		return mensaje.toString();
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);

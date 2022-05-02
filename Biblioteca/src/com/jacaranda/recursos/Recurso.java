@@ -34,15 +34,6 @@ public abstract class Recurso {
 	protected abstract void setCodigo(String codigo) throws RecursoException;
 
 	
-	public HashSet<Ejemplar> getEjemplares() {
-		return ejemplares;
-	}
-
-
-	public void setEjemplares(HashSet<Ejemplar> ejemplares) {
-		this.ejemplares = ejemplares;
-	}
-
 
 	public String getCodigo() {
 		return codigo;
@@ -140,7 +131,7 @@ public abstract class Recurso {
 	
 	
 	public String verEjemplares() {
-		StringBuilder mensaje = new StringBuilder();
+		StringBuilder mensaje = new StringBuilder(toString());
 		for(Ejemplar e : ejemplares) {
 			mensaje.append(e);
 		}

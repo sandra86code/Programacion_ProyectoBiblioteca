@@ -1,16 +1,13 @@
 package com.jacaranda.main;
 
-public class Principal {
+import java.util.Scanner;
 
+public class Principal {
+	
+	private static Scanner teclado = new Scanner(System.in);
+	
 	public static void main(String[] args) {
-		String dni = "15409981G";
-		String dni2 = "75410143C";
-		String dni3 = "15409981C";
-		String dni4 = "154099851G";
-		System.out.println(esDniCorrecto(dni));
-		System.out.println(esDniCorrecto(dni2));
-		System.out.println(esDniCorrecto(dni3));
-		System.out.println(esDniCorrecto(dni4));
+		
 	}
 	
 	private static boolean esDniCorrecto(String dni) {
@@ -25,5 +22,78 @@ public class Principal {
 	        }
 		}
 		return esCorrecto;
+	}
+	
+	/**
+		 * Método de lectura de cadenas (String) por teclado
+		 * @param texto que le sale al usuario por consola
+		 * @return el String introducido por el usuario
+		 */
+	public static String leerCadena(String texto) {
+		System.out.println(texto);
+		return teclado.nextLine();
+	}
+
+	/**
+	 * Método de lectura de números enteros (int) por teclado
+	 * @param texto que le sale al usuario por consola
+	 * @return el número entero introducido por el usuario
+	 */
+	public static int leerEntero(String texto) {
+		System.out.println(texto);
+		int resultado = 0;
+		boolean lecturaCorrecta = false;
+		do {
+			try {
+				resultado = Integer.parseInt(teclado.nextLine());
+				lecturaCorrecta = true;
+			} catch (Exception e) {
+				System.out.println("No has introducido un número entero. Prueba otra vez.");
+			}
+		} while (!lecturaCorrecta);
+
+		return resultado;
+	}
+
+	/**
+	 * Método de lectura de números reales (double) por teclado
+	 * @param texto que le sale al usuario por consola
+	 * @return el número real (double) introducido por el usuario
+	 */
+	public static double leerReal(String texto) {
+		System.out.println(texto);
+		double resultado = 0;
+		boolean lecturaCorrecta = false;
+		do {
+			try {
+				resultado = Double.parseDouble(teclado.nextLine());
+				lecturaCorrecta = true;
+			} catch (Exception e) {
+				System.out.println("No has introducido un número real (decimal). Prueba otra vez.");
+			}
+		} while (!lecturaCorrecta);
+
+		return resultado;
+	}
+
+	/**
+	 * Método de lectura de un carácter (char) por teclado
+	 * @param texto que le sale al usuario por consola
+	 * @return el carácter introducido por el usuario
+	 */
+	public static char leerCaracter(String texto) {
+		System.out.println(texto);
+		char resultado = 0;
+		boolean lecturaCorrecta = false;
+		do {
+			try {
+				resultado = teclado.nextLine().charAt(0);
+				lecturaCorrecta = true;
+			} catch (Exception e) {
+				System.out.println("No has introducido un carácter. Prueba otra vez.");
+			}
+		} while (!lecturaCorrecta);
+
+		return resultado;
 	}
 }

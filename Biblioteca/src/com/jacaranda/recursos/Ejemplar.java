@@ -4,18 +4,24 @@ import java.util.Objects;
 
 public class Ejemplar {
 	
-	private int codigo;
+	private static int CodigoSiguiente;
+	private String codigo;
 	private EstadoEjemplar estado;
 	private String localizacion;
 	
 	
-	public Ejemplar(String estado, String localizacion) throws EjemplarException {
+	public Ejemplar(String codigo, String estado, String localizacion) throws EjemplarException {
 		super();
-		this.codigo = hashCode();
+		this.codigo = codigo + String.valueOf(CodigoSiguiente++);
 		this.setEstado(estado);
 		this.setLocalizacion(localizacion);
 	}
 
+	public Ejemplar(String codigo) {
+		super();
+		this.codigo = codigo;
+	}
+	
 	
 	public void setEstado(String estado) throws EjemplarException {
 		if(estado==null) {
@@ -37,7 +43,7 @@ public class Ejemplar {
 	}
 
 	
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
 
@@ -52,9 +58,10 @@ public class Ejemplar {
 	}
 
 
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(localizacion);
+		return Objects.hash(codigo);
 	}
 
 
@@ -67,7 +74,7 @@ public class Ejemplar {
 		if (getClass() != obj.getClass())
 			return false;
 		Ejemplar other = (Ejemplar) obj;
-		return Objects.equals(localizacion, other.localizacion);
+		return Objects.equals(codigo, other.codigo);
 	}
 
 

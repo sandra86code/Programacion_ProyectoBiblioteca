@@ -14,7 +14,7 @@ public class Multa {
 		if(diasRetraso<=0) {
 			throw new MultaException("Los días de retraso de la entrega tienen que ser un número entero positivo.");
 		}
-		this.fechaFin = fechaInicio.plusDays(diasRetraso*10);
+		this.fechaFin = fechaInicio.plusDays((long)(diasRetraso*10));
 	}
 
 
