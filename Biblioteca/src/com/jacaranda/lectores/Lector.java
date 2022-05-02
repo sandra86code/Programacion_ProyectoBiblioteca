@@ -209,14 +209,10 @@ public class Lector {
 					p.getEjemplar().setEstado("DISPONIBLE");
 					if(p.getFechaFin().isAfter(LocalDate.now())) {
 						long dias = Duration.between(p.getFechaFin(), LocalDate.now()).toDays(); 
-						try {
-							multa = new Multa((int)dias);
-						} catch (MultaException e) {
-							throw new LectorException(e.getMessage());
-						}
+						multa = new Multa((int)dias);
 					}
 					prestamos.remove(p);
-				} catch (EjemplarException e) {
+				} catch (EjemplarException | MultaException e) {
 					throw new LectorException(e.getMessage());
 				}
 			}

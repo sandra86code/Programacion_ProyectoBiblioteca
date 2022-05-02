@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Ejemplar {
 	
-	private static int CodigoSiguiente;
+	private static int CodigoSiguiente = 0;
 	private String codigo;
 	private EstadoEjemplar estado;
 	private String localizacion;

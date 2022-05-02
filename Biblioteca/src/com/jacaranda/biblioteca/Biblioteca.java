@@ -2,7 +2,6 @@ package com.jacaranda.biblioteca;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import com.jacaranda.lectores.Lector;
@@ -126,9 +125,7 @@ public class Biblioteca {
 			}
 			RecursoAutor ra = new RecursoAutor(libro, autor);
 			recursosAutores.add(ra);
-		} catch (RecursoException e) {
-			throw new BibliotecaException(e.getMessage());
-		} catch (RecursoAutorException e) {
+		} catch (RecursoException | RecursoAutorException e) {
 			throw new BibliotecaException(e.getMessage());
 		}
 	}
@@ -145,9 +142,7 @@ public class Biblioteca {
 			// Añado el ejemplar al recurso
 			Recurso r = this.recursos.get(this.recursos.indexOf(recurso));
 			r.addEjemplar(new Ejemplar(r.getCodigo(), estado, localizacion));
-		} catch (RecursoException e) {
-			throw new BibliotecaException(e.getMessage());
-		} catch (EjemplarException e) {
+		} catch (RecursoException | EjemplarException e) {
 			throw new BibliotecaException(e.getMessage());
 		}
 	}

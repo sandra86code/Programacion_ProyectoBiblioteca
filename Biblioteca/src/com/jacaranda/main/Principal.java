@@ -10,7 +10,7 @@ public class Principal {
 		
 	}
 	
-	private static boolean esDniCorrecto(String dni) {
+	public static boolean esDniCorrecto(String dni) {
 		boolean esCorrecto = false;
 		String caracteres = "TRWAGMYFPDXBNJZSQVHLCKE";
 		if(dni.length()==8 || dni.length()==9) {
