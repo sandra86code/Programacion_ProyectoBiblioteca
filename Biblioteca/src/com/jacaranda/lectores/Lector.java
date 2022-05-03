@@ -97,8 +97,8 @@ public class Lector {
 		if(movil==null) {
 			throw new LectorException("El móvil no puede ser nulo.");
 		}
-		if(movil.length()!=9 || movil.charAt(0)!='6' || movil.charAt(0)!='7') {
-			throw new LectorException("Número de móvil incorrecto. Debe contener 9 dígitos y empezar por 6 o 7.");
+		if(movil.length()!=9) {
+			throw new LectorException("Número de móvil incorrecto. Debe contener 9 dígitos");
 		}
 		
 		for(int i=0; i<movil.length() && !movilIncorrecto; i++) {
@@ -122,11 +122,8 @@ public class Lector {
 
 
 	private void setEmail(String email) throws LectorException {
-		if(movil==null) {
-			throw new LectorException("El email del socio no puede ser nulo.");
-		}
-		if(!movil.contains("@")) {
-			throw new LectorException("Inserte una dirección de email válida.");
+		if(movil==null || movil.isBlank() || movil.isEmpty()) {
+			throw new LectorException("El email del socio no puede ser nulo, estar vacío o solo contener espacios en blanco.");
 		}
 		this.email = email.toLowerCase();
 	}
@@ -204,33 +201,31 @@ public class Lector {
 			throw new LectorException("El ejemplar no puede ser nulo.");
 		}
 		for(Prestamo p : prestamos) {
-			if(p.getEjemplar().getLocalizacion().equals(ejemplar.getLocalizacion())) {
+			Ejemplar e = p.getEjemplar();
+			if(e.equals(ejemplar)) {
 				try {
-					p.getEjemplar().setEstado("DISPONIBLE");
+					e.setEstado("DISPONIBLE");
 					if(p.getFechaFin().isAfter(LocalDate.now())) {
 						long dias = Duration.between(p.getFechaFin(), LocalDate.now()).toDays(); 
 						multa = new Multa((int)dias);
 					}
 					prestamos.remove(p);
-				} catch (EjemplarException | MultaException e) {
-					throw new LectorException(e.getMessage());
+				} catch (EjemplarException | MultaException e1) {
+					throw new LectorException(e1.getMessage());
 				}
 			}
 		}
 	}
 	
-	
-	public int numeroPrestamosActuales() {
-		return prestamos.size();
-	}
+
 	
 	public String listarPrestamos() {
-		StringBuilder mensaje = new StringBuilder("El socio " + numSocio + " tiene los siguientes préstamos: ");
+		StringBuilder mensaje = new StringBuilder("El socio " + numSocio + " tiene los siguientes préstamos: \n");
 		if(prestamos.isEmpty()) {
 			mensaje.append("0 préstamos.");
 		}else {
 			for(Prestamo p : prestamos) {
-				mensaje.append(p + "\n");
+				mensaje.append("\t" + p + "\n");
 			}
 		}
 		return mensaje.toString();
@@ -259,6 +254,12 @@ public class Lector {
 	public String toString() {
 		return "Lector con número de socio: " + numSocio + ", Nombre: " + nombre + ", DNI: " + dni + ", Móvil: " + movil
 				+ ", Dirección: " + direccion + ", email: " + email;
+	}
+
+
+
+	public int numeroPrestamosActuales() {
+		return prestamos.size();
 	}
 	
 	

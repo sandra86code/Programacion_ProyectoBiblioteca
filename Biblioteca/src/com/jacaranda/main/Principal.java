@@ -6,7 +6,11 @@ import java.util.Scanner;
 import com.jacaranda.biblioteca.Biblioteca;
 import com.jacaranda.biblioteca.BibliotecaException;
 import com.jacaranda.recursos.AutorException;
+import com.jacaranda.recursos.Ejemplar;
+import com.jacaranda.recursos.EjemplarException;
+import com.jacaranda.recursos.Recurso;
 import com.jacaranda.recursos.RecursoException;
+import com.jacaranda.recursos.Revista;
 
 public class Principal {
 	
@@ -39,6 +43,7 @@ public class Principal {
 		String estado;
 		String localizacion;
 		
+		
 		nombreBiblio = leerCadena("Introduce el nombre de la biblioteca: ");
 		Biblioteca biblio = null;
 		while(!added) {
@@ -49,7 +54,7 @@ public class Principal {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+		System.out.println("Bienvenid@ a la Biblioteca " + biblio.getNombre() + "\n");
 		do {
 			menu();
 			opc = leerEntero("Introduce la opción deseada: ");
@@ -63,8 +68,9 @@ public class Principal {
 				email = leerCadena("Introduce el email del lector: ");
 				try {
 					biblio.addLector(nombrePila, apellidos, dni, movil, direccion, email);
+					System.out.println("Lector añadido.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 2: //Añadir un autor
@@ -73,8 +79,9 @@ public class Principal {
 				fechaNacimiento = leerFecha("de nacimiento del autor");
 				try {
 					biblio.addAutor(nombre, nacionalidad, fechaNacimiento);
+					System.out.println("Autor añadido.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 3: //Añadir una revista
@@ -86,8 +93,9 @@ public class Principal {
 				periodicidad = leerCadena("Introduce la periodicidad de publicación de la revista (semanal-mensual-anual): ");
 				try {
 					biblio.addRevista(nombre, codigo, titulo, editorial, fechaPublicacion, periodicidad);
+					System.out.println("Revista añadida.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 4: //Añadir un libro
@@ -99,18 +107,20 @@ public class Principal {
 				genero = leerCadena("Introduce el género del libro (infantil-idiomas-novela-poesia-teatro-ensayo-comic-juvenil-tecnico): ");
 				try {
 					biblio.addLibro(nombre, codigo, titulo, editorial, fechaPublicacion, genero);
+					System.out.println("Libro añadido.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 5: //Añadir un ejemplar de un recurso (revista o libro).
 				codigo = leerCadena("Introduce el ISSN de la revista (8 dígitos) o el ISBN del libro (13 dígitos): ");
-				estado = leerCadena("Introduce el estado del ejemplar (): ");
-				localizacion = leerCadena("Introduce la localización del ejemplar en la biblioteca (prestado-disponible-reparacion): ");
+				estado = leerCadena("Introduce el estado del ejemplar (prestado-disponible-reparacion): ");
+				localizacion = leerCadena("Introduce la localización del ejemplar en la biblioteca: ");
 				try {
 					biblio.addEjemplarRecurso(codigo, estado, localizacion);
-				} catch (BibliotecaException | RecursoException e1) {
-					System.out.println(e1.getMessage());
+					System.out.println("Ejemplar añadido.\n");
+				} catch (BibliotecaException | RecursoException e) {
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 6: //Añadir un préstamo a un lector
@@ -118,8 +128,9 @@ public class Principal {
 				codigo = leerCadena("Introduce el ISSN de la revista (8 dígitos) o el ISBN del libro (13 dígitos): ");
 				try {
 					biblio.addPrestamo(dni, codigo);
+					System.out.println("Préstamo realizado.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 7: //Devolver un préstamo de un lector
@@ -127,8 +138,9 @@ public class Principal {
 				codigo = leerCadena("Introduce el código del ejemplar que quiere devolver: ");
 				try {
 					biblio.devolverPrestamo(dni, codigo);
+					System.out.println("Devolución realizada.\n");
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 8: //Consultar los préstamos actuales de un lector.
@@ -136,7 +148,7 @@ public class Principal {
 				try {
 					System.out.println(biblio.listarPrestamosLector(dni));
 				} catch (BibliotecaException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 9: //Listar lectores
@@ -150,7 +162,7 @@ public class Principal {
 				try {
 					System.out.println(biblio.verEjemplaresDeRecurso(codigo));
 				} catch (RecursoException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			case 12: //Listar las obras de un autor
@@ -158,7 +170,7 @@ public class Principal {
 				try {
 					System.out.println(biblio.listarObrasDeAutor(nombre));
 				} catch (AutorException | RecursoException e) {
-					System.out.println(e.getMessage());
+					System.out.println(e.getMessage() + "\n");
 				}
 				break;
 			default:

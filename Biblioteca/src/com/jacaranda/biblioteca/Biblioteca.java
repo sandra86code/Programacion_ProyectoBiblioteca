@@ -84,6 +84,9 @@ public class Biblioteca {
 		Revista revista;
 		try {
 			autor = new Autor(nombreAutor);
+			if(this.autores.indexOf(autor)==-1) {
+				throw new BibliotecaException("El autor no existe.");
+			}
 			autor = this.autores.get(this.autores.indexOf(autor));
 			revista = new Revista(codigo, titulo, editorial, fechaPublicacion, periodicidad);
 			// Si la revista no está en la lista de recursos, lo añade a la lista
@@ -110,6 +113,9 @@ public class Biblioteca {
 		Libro libro;
 		try {
 			autor = new Autor(nombreAutor);
+			if(this.autores.indexOf(autor)==-1) {
+				throw new BibliotecaException("El autor no existe.");
+			}
 			autor = this.autores.get(this.autores.indexOf(autor));
 			libro = new Libro(codigo, titulo, editorial, fechaPublicacion, genero);
 			// Si el libro no está en la lista de recursos, lo añade a la lista
@@ -123,7 +129,7 @@ public class Biblioteca {
 			if (autores.indexOf(autor) == -1) {
 				autores.add(autor);
 			}
-			RecursoAutor ra = new RecursoAutor(libro, autor);
+			RecursoAutor ra = new RecursoAutor(this.recursos.get(this.recursos.indexOf(libro)), this.autores.get(this.autores.indexOf(autor)));
 			recursosAutores.add(ra);
 		} catch (AutorException | RecursoException | RecursoAutorException e) {
 			throw new BibliotecaException(e.getMessage());
@@ -145,7 +151,8 @@ public class Biblioteca {
 		}
 		try {
 			Recurso r = this.recursos.get(this.recursos.indexOf(recurso));
-			r.addEjemplar(new Ejemplar(r.getCodigo(), estado, localizacion));
+			Ejemplar e = new Ejemplar(r.getCodigo(), estado, localizacion);
+			r.addEjemplar(e);
 		} catch (RecursoException | EjemplarException e) {
 			throw new BibliotecaException(e.getMessage());
 		}
@@ -219,6 +226,7 @@ public class Biblioteca {
 	public String listarRecursosConEjemplares() {
 		StringBuilder mensaje = new StringBuilder();
 		for(Recurso r: recursos) {
+			mensaje.append(r.toString() + "\n");
 			mensaje.append(r.verEjemplares() + "\n");
 		}
 		return mensaje.toString();
@@ -232,10 +240,12 @@ public class Biblioteca {
 		} else if (codigo != null && codigo.length() == 8) {
 			recurso = new Revista(codigo);
 		}
-		if (recurso == null) {
-			mensaje.append("No existe dicho recurso en el catálogo.");
+		if (recurso == null || this.recursos.indexOf(recurso)==-1) {
+			mensaje.append("Recurso inexistente.");
 		}else {
-			mensaje.append(recurso.verEjemplares());
+			Recurso r = this.recursos.get(this.recursos.indexOf(recurso));
+			mensaje.append(r.toString());
+			mensaje.append(r.verEjemplares());
 		}
 		return mensaje.toString();
 	}

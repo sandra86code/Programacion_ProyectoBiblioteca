@@ -131,9 +131,9 @@ public abstract class Recurso {
 	
 	
 	public String verEjemplares() {
-		StringBuilder mensaje = new StringBuilder(toString());
+		StringBuilder mensaje = new StringBuilder();
 		for(Ejemplar e : ejemplares) {
-			mensaje.append(e);
+			mensaje.append("\t" + e + "\n");
 		}
 		return mensaje.toString();
 	}
