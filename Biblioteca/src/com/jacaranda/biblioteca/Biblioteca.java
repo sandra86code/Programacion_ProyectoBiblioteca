@@ -117,6 +117,10 @@ public class Biblioteca {
 				throw new BibliotecaException("El autor no existe.");
 			}
 			autor = this.autores.get(this.autores.indexOf(autor));
+			// Si el autor no está en la lista de autores, lo añade a la lista
+			if (autores.indexOf(autor) == -1) {
+				autores.add(autor);
+			}
 			libro = new Libro(codigo, titulo, editorial, fechaPublicacion, genero);
 			// Si el libro no está en la lista de recursos, lo añade a la lista
 			if (this.recursos.indexOf(libro) == -1) {
@@ -124,10 +128,6 @@ public class Biblioteca {
 				// Si el libro está en la lista de recursos, lanza excepción.
 			} else {
 				throw new BibliotecaException("Revista ya existente.");
-			}
-			// Si el autor no está en la lista de autores, lo añade a la lista
-			if (autores.indexOf(autor) == -1) {
-				autores.add(autor);
 			}
 			RecursoAutor ra = new RecursoAutor(this.recursos.get(this.recursos.indexOf(libro)), this.autores.get(this.autores.indexOf(autor)));
 			recursosAutores.add(ra);
