@@ -250,7 +250,7 @@ public class Biblioteca {
 		return mensaje.toString();
 	}
 	
-	public String listarObrasDeAutor(String nombreAutor) throws AutorException, RecursoException {
+	public String listarObrasDeAutor(String nombreAutor) throws AutorException {
 		StringBuilder mensaje = new StringBuilder();
 		Autor autor = null;
 		try {

@@ -6,11 +6,7 @@ import java.util.Scanner;
 import com.jacaranda.biblioteca.Biblioteca;
 import com.jacaranda.biblioteca.BibliotecaException;
 import com.jacaranda.recursos.AutorException;
-import com.jacaranda.recursos.Ejemplar;
-import com.jacaranda.recursos.EjemplarException;
-import com.jacaranda.recursos.Recurso;
 import com.jacaranda.recursos.RecursoException;
-import com.jacaranda.recursos.Revista;
 
 public class Principal {
 	
@@ -169,7 +165,7 @@ public class Principal {
 				nombre = leerCadena("Introduce el nombre y apellidos del autor: ");
 				try {
 					System.out.println(biblio.listarObrasDeAutor(nombre));
-				} catch (AutorException | RecursoException e) {
+				} catch (AutorException e) {
 					System.out.println(e.getMessage() + "\n");
 				}
 				break;
@@ -190,8 +186,8 @@ public class Principal {
 						+ "3. Añadir una revista.\n"
 						+ "4. Añadir un libro.\n"
 						+ "5. Añadir un ejemplar de un recurso (revista o libro).\n"
-						+ "6. Añadir un préstamo a un lector.\n"
-						+ "7. Devolver un préstamo de un lector.\n"
+						+ "6. Realizar préstamo a un lector.\n"
+						+ "7. Devolver préstamo de un lector.\n"
 						+ "8. Consultar los préstamos actuales de un lector.\n"
 						+ "9. Listar lectores.\n"
 						+ "10. Listar recursos con sus respectivos ejemplares.\n"
@@ -206,7 +202,7 @@ public class Principal {
 		LocalDate fecha = null;
 		while (!fechaCorrecta) {
 			try {
-				String fechaCadena = leerCadena("Introduce la fecha de " + cadena + "(formato DD/MM/AAAA): ");
+				String fechaCadena = leerCadena("Introduce la fecha de " + cadena + " (DD/MM/AAAA): ");
 				int separador = fechaCadena.indexOf("/");
 				int dia = Integer.parseInt(fechaCadena.substring(0, separador));
 				String restoFecha = fechaCadena.substring(separador + 1);

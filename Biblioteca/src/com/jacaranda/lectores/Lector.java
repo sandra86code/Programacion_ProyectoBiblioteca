@@ -1,8 +1,9 @@
 package com.jacaranda.lectores;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import com.jacaranda.recursos.Ejemplar;
@@ -197,19 +198,25 @@ public class Lector {
 	}
 	
 	public void removePrestamo(Ejemplar ejemplar) throws LectorException {
+		boolean eliminado = false;
 		if(ejemplar==null) {
 			throw new LectorException("El ejemplar no puede ser nulo.");
 		}
-		for(Prestamo p : prestamos) {
-			Ejemplar e = p.getEjemplar();
-			if(e.equals(ejemplar)) {
+		Iterator<Prestamo> iterador = prestamos.iterator();
+		while(iterador.hasNext() && !eliminado) {
+			Prestamo prestamo = iterador.next();
+			Ejemplar e = prestamo.getEjemplar();
+			if(ejemplar.equals(e)) {
 				try {
 					e.setEstado("DISPONIBLE");
-					if(p.getFechaFin().isAfter(LocalDate.now())) {
-						long dias = Duration.between(p.getFechaFin(), LocalDate.now()).toDays(); 
-						multa = new Multa((int)dias);
+					if(prestamo.getFechaFin().isAfter(LocalDate.now())) {
+						long dias = ChronoUnit.DAYS.between(prestamo.getFechaFin(), LocalDate.now()); 
+						if(dias>0) {
+							multa = new Multa((int)dias);
+						}
 					}
-					prestamos.remove(p);
+					prestamos.remove(prestamo);
+					eliminado = true;
 				} catch (EjemplarException | MultaException e1) {
 					throw new LectorException(e1.getMessage());
 				}

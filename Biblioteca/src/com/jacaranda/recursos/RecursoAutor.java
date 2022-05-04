@@ -19,21 +19,11 @@ public class RecursoAutor {
 		return new Autor(autor.getNombre(), autor.getNacionalidad(), autor.getFechaNacimiento());
 	}
 
-	public Recurso getRecurso() throws RecursoException {
-		Recurso r;
-		if(recurso instanceof Revista) {
-			r = new Revista(((Revista) recurso).getCodigo(), ((Revista) recurso).getTitulo(), 
-					((Revista) recurso).getEditorial(), ((Revista) recurso).getFechaPublicacion(), 
-					((Revista) recurso).getPeriodicidad());
-		}else {
-			r = new Libro(((Libro) recurso).getCodigo(), ((Libro) recurso).getTitulo(), 
-					((Libro) recurso).getEditorial(), ((Libro) recurso).getFechaPublicacion(), 
-					((Libro) recurso).getGenero());
-		}
-		return r;
+	public Recurso getRecurso() {
+		return recurso;
 	}
 
-
+	
 	private void setAutor(Autor autor) throws RecursoAutorException {
 		if(autor==null) {
 			throw new RecursoAutorException("El autor no puede ser nulo.");

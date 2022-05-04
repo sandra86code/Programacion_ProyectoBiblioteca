@@ -12,7 +12,7 @@ public class Ejemplar {
 	
 	public Ejemplar(String codigo, String estado, String localizacion) throws EjemplarException {
 		super();
-		this.codigo = codigo + String.valueOf(CodigoSiguiente++);
+		this.codigo = codigo + String.valueOf(Ejemplar.CodigoSiguiente++);
 		this.setEstado(estado);
 		this.setLocalizacion(localizacion);
 	}
