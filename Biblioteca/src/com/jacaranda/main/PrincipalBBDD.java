@@ -49,6 +49,7 @@ public class PrincipalBBDD {
 					System.out.println(e.getMessage());
 				}
 			}
+			
 			System.out.println("Bienvenid@ a la Biblioteca " + biblio.getNombre() + "\n");
 			
 			do {
